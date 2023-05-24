@@ -1,5 +1,9 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, send_file, make_response
 import requests
+from PIL import Image
+import urllib.request
+from io import BytesIO
+import os
 
 app = Flask(__name__)
 
@@ -19,9 +23,29 @@ def index():
 
 @app.route('/agent', methods=['GET','POST'])
 def getagentinfo():
-    agentname = request.form['name'].title()
+    try:
+        agentname = request.form['name'].title()
+    except:
+        return render_template('404.html')
+    info_to_get = []
+    try:
+        info_to_get.append(request.form['role'])
+    except:
+        pass
+    try:
+        info_to_get.append(request.form['description'])
+    except:
+        pass
+    try:
+        info_to_get.append(request.form['ability'])
+    except:
+        pass
     print(agentname)
     r = requests.get("https://valorant-api.com/v1/agents/" + agent_uuid[agentname])
-    data = r.json()['data']
-    return data['description']
+    agentdata = r.json()['data']
+    urllib.request.urlretrieve(agentdata['displayIcon'], "out.png")
+    with open('out.png', 'rb') as f:
+        buffer = f.read()
+    os.remove('out.png')
+    return send_file(BytesIO(buffer), mimetype='image/png')
     return "success", 200

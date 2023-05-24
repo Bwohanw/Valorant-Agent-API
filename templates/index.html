@@ -3,6 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="style.css">
 
     <title>Valorant Agent API</title>
   </head>
@@ -11,8 +12,18 @@
         <h1>Agent Info</h1>
         <form method="POST" action="/agent">
             <div class="nameform">
-                <label for="name">Agent Name:</label>
-                <input type="text" id="name" name="name">
+              <div class="agentname">
+                  <label for="name">Agent Name:</label>
+                  <input type="text" id="name" name="name">
+                </div>
+                <div class="features">
+                  <input type="checkbox" id="role" name="role" value="role">
+                  <label for="role">Role</label>
+                  <input type="checkbox" id="description" name="description" value="description">
+                  <label for="description">Description</label>
+                  <input type="checkbox" id="ability" name="ability" value="ability">
+                  <label for="ability">Ability</label>
+                </div>
             </div>
             <button type="submit">Submit</button>
         </form>
